@@ -11,11 +11,16 @@ type omdbHandler struct {
 	client *omdbClient
 }
 
+type MovieResponse struct {
+	data []MovieResult
+}
+
 func (h omdbHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	log.Println("Getting the movies")
 	ids := []string{"tt0133093", "tt0816692", "tt1375666", "tt0172495", "tt0137523"}
 	resp, err := h.client.GetByIds(ids)
 	data, err := json.Marshal(resp)
+
 	if err != nil {
 		log.Println(err)
 	}
