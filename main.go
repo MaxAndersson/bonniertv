@@ -1,20 +1,29 @@
 package main
 
 import (
-  "log"
-  "net/http"
-  "io"
+	"io"
+	"log"
+	"net/http"
+	"os"
 )
-type omdbHandler int
-func(h omdbHandler) ServeHTTP(res http.ResponseWriter, req *http.Request){
-  io.WriteString(res, "hello")
-} 
 
-func main(){
-  var oh omdbHandler
-  log.Println("Starting web service...")
-  mux := http.NewServeMux()
-  mux.Handle("/",oh)
-  
-  http.ListenAndServe(":8080", mux)
+type omdbHandler struct {
+	client *omdbClient
+}
+
+func (h omdbHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	log.Println("Getting the movies")
+
+	io.WriteString(res, "hello")
+}
+
+func main() {
+	omdb := InitOmdbClient(os.Getenv("OMDB_BASEURL"), os.Getenv("OMDB_APIKEY"))
+	oh := omdbHandler{client: omdb}
+
+	log.Println("Starting web service... ")
+	mux := http.NewServeMux()
+	mux.Handle("/", oh)
+
+	http.ListenAndServe(":8080", mux)
 }
