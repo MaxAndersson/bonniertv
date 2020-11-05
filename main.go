@@ -26,12 +26,24 @@ func (h omdbHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	}
 	res.Write(data)
 }
+func enforceSecret(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		secret := r.Header.Get("X-Secret")
+
+		if secret != "1234" {
+			return
+
+		}
+		next.ServeHTTP(w, r)
+	})
+}
 
 func main() {
 	omdb := InitOmdbClient(os.Getenv("OMDB_BASEURL"), os.Getenv("OMDB_APIKEY"))
 	oh := omdbHandler{client: omdb}
 	log.Println("Starting web service... ")
 	mux := http.NewServeMux()
-	mux.Handle("/", oh)
+	mux.Handle("/", enforceSecret(oh))
+
 	http.ListenAndServe(":8080", mux)
 }
