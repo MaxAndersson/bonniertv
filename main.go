@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io"
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -13,8 +13,13 @@ type omdbHandler struct {
 
 func (h omdbHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	log.Println("Getting the movies")
-
-	io.WriteString(res, "hello")
+	ids := []string{"tt0133093", "tt0816692", "tt1375666", "tt0172495", "tt0137523"}
+	resp := h.client.GetByIds(ids)
+	data, err := json.Marshal(resp)
+	if err != nil {
+		log.Println(err)
+	}
+	res.Write(data)
 }
 
 func main() {
