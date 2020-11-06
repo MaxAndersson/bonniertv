@@ -51,7 +51,7 @@ $ go test *.go -v
 
 
 # Possible improvements
-- [ ] Cache, Concurrency, Integrationtests
+- [ ] Cache Middleware, Concurrency, Integrationtests
 - [ ] Implement jwt verification
 - [ ] Configure for serverless deployment
 - [ ] Use a redis cache
