@@ -18,7 +18,7 @@ OMDB nedan.
 - [x] Tjänsten ska helst använda paket från go's standard library.
 - [x] Visa din arbetsgång genom att jobba metodiskt i Git med en commit per funktionell förändring.
 - [x] Tjänsten svarar endast på HTTP GET om man skickar med headern "X-Secret" med värdet "1234".
-- [ ] Tjänsten hanterar en intern cache så den max gör en request per minut mot omdb.
+- [x] Tjänsten hanterar en intern cache så den max gör en request per minut mot omdb.
 - [ ] Tjänsten hämtar hem filmerna från omdb "concurrently"
 - [*] Enhetstester och/eller integrationstester
 
